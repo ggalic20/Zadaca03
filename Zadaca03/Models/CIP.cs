@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Zadaca03.Models
 {
-    public abstract class CIP
+    public class CIP
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string ImeiPrezime { get; set; }
     }
 }

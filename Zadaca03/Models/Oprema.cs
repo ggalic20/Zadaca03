@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zadaca03.Models
 {
-    public abstract class Oprema
+    public class Oprema
     {
         public int id { get; set; } 
         public DateTime DatumZaprimanja { get; set; }
