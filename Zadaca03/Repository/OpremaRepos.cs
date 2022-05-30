@@ -14,6 +14,7 @@ namespace Zadaca03.Repository
         public static Oprema GetOprema(int id)
         {
             Oprema oprema = null;
+            DB.SetConfiguration("ggalic20_DB", "ggalic20", "-V^DAfac");
             string sql = $"SELECT * FROM Oprema WHERE Id = {id}";
             DB.OpenConnection();
             var reader = DB.GetDataReader(sql);
@@ -27,6 +28,27 @@ namespace Zadaca03.Repository
             return oprema;
         }
 
+        public static List<Oprema> GetOpremas()
+        {
+           
+            List<Oprema> opremas = new List<Oprema>();
+
+            string sql = "SELECT * FROM Oprema";
+            DB.OpenConnection();
+            var reader = DB.GetDataReader(sql);
+
+            while (reader.Read())
+            {
+                Oprema oprema = CreateObject(reader);
+                opremas.Add(oprema);
+            }
+
+            reader.Close();
+            DB.CloseConnection();
+
+            return opremas;
+        }
+
         private static Oprema CreateObject(SqlDataReader reader)
         {
             int Id = int.Parse(reader["id"].ToString());
@@ -37,7 +59,6 @@ namespace Zadaca03.Repository
             string vrsta = reader["VrstaOpreme"].ToString();
             string naziv = reader["NazivOpreme"].ToString();
             string opis = reader["OpisOpreme"].ToString();
-
             var oprema = new Oprema
             {
                 id = Id,
@@ -52,5 +73,19 @@ namespace Zadaca03.Repository
             };
             return oprema;
         }
+
+        public static void UpdateObject(Oprema oprema)
+        {
+            if (oprema != null)
+            {
+                string sql = $"UPDATE Oprema SET Zaprimio='{oprema.Zaprimio}',IzvorFinanciranja='{oprema.IzvorFinanciranja}'," +
+                    $"NazivProjekta='{oprema.NazivProjekta}',VrstaOpreme='{oprema.VrstaOpreme}',NazivOpreme='{oprema.NazivOpreme}',OpisOpreme='{oprema.OpisOpreme}' WHERE id={oprema.id}";
+                DB.OpenConnection();
+                DB.ExecuteCommand(sql);
+                DB.CloseConnection();
+            }
+        }
+      
+
     }
 }
